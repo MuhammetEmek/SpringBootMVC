@@ -1,0 +1,58 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title th:text="#{app.title}"></title>
+		<div th:fragment="header-css">
+  			<meta name="viewport" content="width=device-width, initial-scale=1" />
+  			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+			<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jq-3.2.1/dt-1.10.16/af-2.2.2/r-2.2.0/sc-1.4.3/datatables.min.css"/>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>			
+  			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ 			<script type="text/javascript" src="https://cdn.datatables.net/v/bs/jq-3.2.1/dt-1.10.16/af-2.2.2/r-2.2.0/sc-1.4.3/datatables.min.js"></script>
+  			
+		</div>
+	</head>
+
+	<body>
+		<div th:fragment="header">
+			<!-- this is header -->
+			<nav class="navbar navbar-inverse">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<a class="navbar-brand" th:href="@{/}" th:text="#{app.title.short}" />
+					</div>
+					<ul class="nav navbar-nav">
+						<li class="active"><a th:href="@{/}" th:text="#{app.menu.user.home}" /></li>
+						<li class="dropdown" sec:authorize="hasAuthority('ADMIN')">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					        	<span th:text="#{app.menu.admin}" />
+					        	<span class="caret"></span>
+					        </a>
+							<ul class="dropdown-menu">
+								<li><a th:href="@{/admin/userList}" th:text="#{app.menu.admin.userList}"/></li>
+								<li><a th:href="@{/admin/register}" th:text="#{app.menu.admin.register}" /></li>
+							</ul>
+						</li>																
+					</ul>
+					<ul class="nav navbar-nav navbar-right" sec:authorize="!isAuthenticated()">				      
+				      	<li><a th:href="@{/login}"><span class="glyphicon glyphicon-log-in"></span>&nbsp;<span th:text="#{app.label.login}" /></a></li>
+				    </ul>
+				    <ul class="nav navbar-nav navbar-right" sec:authorize="isAuthenticated()">
+						<li>
+							<button class="btn btn-default dropdown-toggle navbar-btn" type="button" id="userInfo" data-toggle="dropdown">
+								<span sec:authentication="name"></span>
+						    	<span class="caret"></span>
+						    </button>
+						    <ul class="dropdown-menu" role="menu" aria-labelledby="userInfo">
+						      	<li><a th:href="@{/user}" th:text="#{app.menu.user.info}"/></li>
+								<li><a th:href="@{/user/resetPassword}" th:text="#{app.menu.user.password.reset}" /></li>
+						    </ul>
+						</li>      
+				      	<li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-out" />&nbsp;<span th:text="#{app.label.logout}" /></a></li>
+				   </ul>
+				</div>
+			</nav>
+		</div>
+	</body>
+	
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<div th:replace="fragments/header :: header-css" />
+	</head>
+	<body>
+		<div th:replace="fragments/header :: header" />
+		<div class="container-fluid">
+			<div class="row">
+				<div align="center">
+					<img src="../image/error.png" height="200" width="200" />
+					<h1 th:text="#{error.http.401}"></h1>
+					<h3 th:text="#{error.http.401.message}"></h3>
+				</div>
+			</div>
+		</div>
+		<!-- /.container -->
+		<div th:replace="fragments/footer :: footer" />
+	</body>
+</html>

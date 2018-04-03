@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+	<head>
+	</head>
+	<body>
+		<div th:fragment="footer">
+			<footer>
+				<div><br/><br/><br/><br/></div>
+				<div class="navbar navbar-default navbar-fixed-bottom">
+					<div class="container">
+					    <p class="navbar-text pull-center">
+					     	©2018 MsE 
+					     	<br/>
+					     	<strong><span th:text="#{app.title}"/></strong>
+					     	<br/>
+					     	<span sec:authorize="isAuthenticated()"><span th:text="#{app.menu.user.loggedIn}"/> : <a th:href="@{/user}"><span sec:authentication="name"/></a></span>
+					    </p>					   
+				    </div>
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<div th:replace="fragments/header :: header-css" />
+		<link rel="stylesheet" href="../css/main.css" />
+	</head>
+	<body>
+		<div th:replace="fragments/header :: header" />
+		<div class="container-fluid">
+			<div class="row">
+				<div align="center">					
+					<br/>
+					<br/>
+					<br/>
+					<h1 th:text="#{app.home.page}"/>
+				</div>
+			</div>
+		</div>
+		<!-- /.container -->
+		<div th:replace="fragments/footer :: footer" />
+	</body>
+</html>

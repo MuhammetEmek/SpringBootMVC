@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	<div th:replace="fragments/header :: header-css" />
+	<link rel="stylesheet" href="../css/main.css" />
+	</head>
+	<body>
+		<div th:replace="fragments/header :: header" />
+		<div class="container-fluid" align="center">
+			<div class="col-md-1"/>
+			<div class="col-md-10" >
+				<div class="panel panel-primary" id="login">
+					<div class="panel-heading">
+						<h3 class="panel-title" th:text="#{app.panel.userList}" />
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+                            <table id="userListTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th class="text-center" th:text="#{user.userCode}" />
+										<th class="text-center" th:text="#{user.userName}" />
+										<th class="text-center" th:text="#{user.userSurname}" />
+										<th class="text-center" th:text="#{user.email}" />
+										<th class="text-center" th:text="#{user.admin}" />
+										<th class="text-center" th:text="#{user.locked}" />
+										<th class="text-center" th:text="#{user.statu}" />
+										<th class="text-center" th:text="#{app.button.update}" />
+										<th class="text-center" th:text="#{app.panel.resetPassword}" />
+										<!-- <th class="text-center" th:text="#{app.button.delete}" /> -->
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="userInfo : ${allUsers}">
+										<td th:text="${userInfo.userCode}" />
+										<td th:text="${userInfo.userName}" />
+										<td th:text="${userInfo.userSurname}" />
+										<td th:text="${userInfo.email}" />
+										<td align="center">
+											<p data-placement="top" data-toggle="tooltip" th:title="#{user.admin}" th:if="${userInfo.admin}">
+												<button class="btn btn-primary btn-xs">
+													<span class="glyphicon glyphicon-ok"></span>
+												</button>
+											</p>											
+										</td>
+										<td align="center">
+											<p data-placement="top" data-toggle="tooltip" th:title="#{user.locked}" th:if="${userInfo.accountLocked}">
+												<button class="btn btn-primary btn-xs">
+													<span class="glyphicon glyphicon glyphicon-lock"></span>
+												</button>
+											</p>											
+										</td>
+										<td align="center">
+											<div class="btn-group btn-toggle">
+												<a th:href="@{/admin/userList/} + ${userInfo.objid} + '/switchStatus'">
+													<button class="btn btn-xs" th:classappend="${userInfo.enabled} ? btn-success : btn-default" th:text="#{user.statu.active}"/>
+													<button class="btn btn-xs" th:classappend="${!userInfo.enabled} ? btn-danger : btn-default" th:text="#{user.statu.passive}" />
+												</a>																						
+											</div>
+										</td>
+										<td align="center">
+											<p data-placement="top" data-toggle="tooltip" th:title="#{app.button.update}">
+												<button class="btn btn-primary btn-xs" data-th-id="${userInfo.objid}" data-title="Edit" th:onclick="'javascript:openUserInfoModal(\'' + ${userInfo.objid} + '\');'">
+													<span class="glyphicon glyphicon-pencil"></span>
+												</button>
+											</p>
+										</td>
+										<td align="center">
+											<p data-placement="top" data-toggle="tooltip" th:title="#{app.menu.admin.resetPassword}">
+												<button class="btn btn-primary btn-xs" data-th-id="${userInfo.objid}" data-title="Edit" data-toggle="modal" th:attr="data-target='#resetPasswordModal'+${userInfo.objid}">
+													<span class="glyphicon glyphicon-refresh"></span>
+												</button>
+											</p>
+										</td>
+										
+										<!-- 
+										<td align="center">
+											<p data-placement="top" data-toggle="tooltip" th:title="#{app.button.delete}">
+												<button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete">
+													<span class="glyphicon glyphicon-trash"></span>
+												</button>
+											</p>
+										</td>
+										 -->
+										 
+										 <div class="modal fade" role="dialog" aria-hidden="true" th:id="resetPasswordModal+${userInfo.objid}">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+															<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+														</button>
+														<h4 class="modal-title custom_align" id="Heading" th:text="#{app.panel.resetPassword}"></h4>
+													</div>
+													<div class="modal-body">
+														<form th:action="@{/admin/userList/} + ${userInfo.objid} + '/resetPassword'" method="POST" class="form-signin" th:object="${passwordForm}">
+															<div class="form-group">
+																<input type="password" data-minlength="6" class="form-control" th:field="*{newPassword}" th:placeholder="#{user.password.new}"/>
+																<p class="bg-danger" th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}"></p>
+															</div>
+															<div class="form-group">
+																<input type="password" class="form-control" id="passwordConfirm" th:field="*{passwordConfirm}"  th:placeholder="#{user.password.confirm}" />
+																<p class="bg-danger" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}"></p>						
+															</div>
+															
+															<p th:if="${errorMsg}" class="bg-danger" th:text="${errorMsg}"></p>
+																       		
+															<button class="btn btn-md btn-primary btn-block" name="Submit" th:text="#{app.button.update}" type="Submit"></button>
+														</form>
+													</div>
+												</div>
+												<!-- /.modal-content -->
+											</div>
+											<!-- /.modal-dialog -->
+										</div>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-1"/>
+			
+			<!-- For user Update Modal -->
+			<div id="userModalHolder" />
+			
+		</div>
+		
+		<script type="text/javascript">
+		<!--Turkish Language
+			$(document).ready(function(){
+				$('#userListTable').DataTable( {
+					
+					language: {
+			    		processing:     "İşleniyor...",
+			            search:         "Arama&nbsp;:",
+			            lengthMenu:     "Tabloda _MENU_ kayıt göster",
+			            info:           "Toplam _TOTAL_ kayıt arasında _START_ - _END_ tanesi gösterilmektedir",
+			            infoEmpty:      "Sonuç bulunamadı",
+			            infoFiltered:   "(Toplam _MAX_ kayıt içerisinden filtrelenmiştir)",
+			            infoPostFix:    "",
+			            loadingRecords: "Kayıtlar yükleniyor...",
+			            zeroRecords:    "Kayıt Bulunamamıştır",
+			            emptyTable:     "Kayıt Bulunamamıştır",
+			            paginate: {
+			                first:      "İlk",
+			                previous:   "Önceki",
+			                next:       "Sonraki",
+			                last:       "Son"
+			            },
+			            aria: {
+			                sortAscending:  ": Küçükten Büyüğe",
+			                sortDescending: ": Büyükten Küçüğe"
+			            },
+			    	}
+			    } );
+			});
+		-->
+		
+			function openUserInfoModal(objid){
+				$.ajax({
+					url : "/admin/userList/" + objid,
+					success : function(data) {
+						jQuery.noConflict();
+						$("#userModalHolder").html(data)
+						$("#userModal").modal("show");					
+					}
+				});
+			}						
+		</script>
+
+		<!-- /.container -->
+		<div th:replace="fragments/footer :: footer" />	
+	</body>
+</html>

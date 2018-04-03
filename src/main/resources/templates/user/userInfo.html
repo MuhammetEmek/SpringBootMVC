@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<div th:replace="fragments/header :: header-css" />
+		<link rel="stylesheet" href="../css/main.css" />
+	</head>
+	<body>
+		<div th:replace="fragments/header :: header" />
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-4" />
+				<div class="col-md-4">
+					<div class="panel panel-primary" id="login">
+						<div class="panel-heading">
+							<h3 class="panel-title" th:text="#{app.panel.userInfo}"></h3>
+						</div>
+						<div class="panel-body">
+							<!-- Template kullanımı 
+								<div th:include="fragments/user :: userForm(@{/admin/register}, 'userData', #{app.button.update.user})"></div>
+							-->
+							<form th:action="@{/user}" method="POST" class="form-signin" th:object="${userData}">
+								<div class="form-group">
+									<input type="text" class="form-control" th:field="*{userCode}" th:placeholder="#{user.userCode}" disabled=""/>				 
+								</div>
+								<div class="form-group">
+									<input type="text" class="form-control" th:field="*{userName}" th:placeholder="#{user.userName}" />
+								</div>
+								<div class="form-group">
+									<input type="text" class="form-control" th:field="*{userSurname}" th:placeholder="#{user.userSurname}"  />
+								</div>
+								<div class="form-group">
+									<input type="text" class="form-control" th:field="*{email}" th:placeholder="#{user.email}" />
+								</div>
+								<div class="form-group">
+						            <input type="checkbox" name="adminCheckbox" id="adminCheckbox"  th:field="*{admin}" disabled=""/>
+						            <label for="adminCheckbox"><span th:text="#{user.admin}" /></label>
+								</div>
+									       		
+								<button class="btn btn-md btn-primary btn-block" name="Submit" th:text="#{app.button.update}" type="Submit"></button>
+							</form>
+							
+							<br/>
+							
+							<p th:if="${result}" align="center" class="text-success" th:text="${result}"></p>
+							<p th:if="${errorMsg}" align="center" class="text-danger" th:text="${errorMsg}"></p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4" />
+			</div>
+		</div>
+		<!-- /.container -->
+		<div th:replace="fragments/footer :: footer" />
+	</body>
+</html>

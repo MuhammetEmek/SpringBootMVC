@@ -1,0 +1,25 @@
+Insert into AUTHORITIES (OBJID, NAME)
+ Values ('1', 'ADMIN');
+ 
+Insert into EMKTISM.AUTHORITIES (OBJID, NAME)
+ Values ('2', 'USER');
+
+-- BCrypt Encoded Password (Password : 123456)
+Insert into USERS
+   (OBJID, USER_CODE, USER_NAME, USER_SURNAME, EMAIL, PASSWORD, ENABLED, FAILED_LOGIN_COUNT, REGISTER_DATE, LAST_PASSWORD_CHANGE)
+ Values
+   ('4f0aa1f8-6b38-418a-aba0-29a9548cd232', 'TEST_USER', 'TEST_USER', 'TEST_USER', 'testuser@xyz.com', '$2a$10$LLz632vxaBEnB3BbAzTe/OVtUQrxF40GBRBbVX8H3FupMoyxpjLKO', 1, 0, SYSDATE, SYSDATE);
+
+-- BCrypt Encoded Password (Password : 123456)
+Insert into USERS
+   (OBJID, USER_CODE, USER_NAME, USER_SURNAME, EMAIL, PASSWORD, ENABLED, FAILED_LOGIN_COUNT, REGISTER_DATE, LAST_PASSWORD_CHANGE)
+ Values
+   ('0e9099d3-caea-46b3-82d8-6b79dd0c0092', 'ADMIN_USER', 'ADMIN_USER', 'ADMIN_USER', 'admin@xyz.com', '$2a$10$1IJfcDoXeCii6gXrxdVIbeSmgDNRbep7kOZodMkmHljTMkoNrpfiG', 1, 0, SYSDATE, SYSDATE);
+
+Insert into USER_AUTHS (USER_OID, AUTH_OID) Values ('4f0aa1f8-6b38-418a-aba0-29a9548cd232', '2');
+
+Insert into USER_AUTHS (USER_OID, AUTH_OID) Values ('0e9099d3-caea-46b3-82d8-6b79dd0c0092', '1');
+
+Insert into USER_AUTHS (USER_OID, AUTH_OID) Values ('0e9099d3-caea-46b3-82d8-6b79dd0c0092', '2');
+
+COMMIT;
