@@ -1,0 +1,16 @@
+
+/.settings
+/bin
+*/target/*
+/logs
+*/out/
+.MF
+!.gitignore
+*.iml
+*.exe
+.project
+.classpath
+.class
+*.class
+*.log
+!application.properties
