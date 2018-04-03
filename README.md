@@ -2,12 +2,13 @@
 Spring Boot Web MVC Application
 
 ## This project includes and uses belows
-* Spring Boot
-* Spring MVC for the web part
+* Spring Boot (1.5.8)
+* Spring MVC
 * Spring Data
-* Spring Security (Database authentication, authorization)
-* Thymeleaf for the template engine
-* Embedded Tomcat as application server.
+* Spring Security
+* Thymeleaf
+* Embedded Tomcat
+* Bootstrap (UI Presentation)
 
 ## For Running application
 * Fill the datasource properties as mentioned below for Oracle on `application.properties` file
